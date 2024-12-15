@@ -1,0 +1,23 @@
+.global-time {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .global-time .time {
+    font-size: 3rem; /* Increased size */
+    color: #333;
+  }
+  
+  .global-time .date {
+    font-size: 2rem; /* Added date size */
+    color: #666;
+  }
+  
+  .dark-mode .global-time .time {
+    color: #fff;
+  }
+  
+  .dark-mode .global-time .date {
+    color: #ccc;
+  }
+  
