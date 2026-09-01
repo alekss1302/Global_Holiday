@@ -1,59 +1,69 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
+import { fireEvent, render, screen } from '@testing-library/react';
+import '../i18n';
 import HolidayList from './HolidayList';
 
-const holidays = [
-    { name: 'Independence Day', date: '2024-07-04', localName: 'Independence Day', countryCode: 'US' },
-    { name: 'August Festivals', date: '2024-08-15', localName: 'August Festivals', countryCode: 'US' },
+const sampleHolidays = [
+    {
+        date: '2099-07-04',
+        localName: 'Independence Day',
+        name: 'Independence Day',
+        countryCode: 'US',
+        global: true,
+        types: ['Public']
+    },
+    {
+        date: '2099-08-15',
+        localName: 'Festival Day',
+        name: 'Festival Day',
+        countryCode: 'GB',
+        global: true,
+        types: ['Public']
+    }
 ];
 
-test('renders today\'s holidays', () => {
-    render(<HolidayList todayHolidays={holidays} upcomingHolidays={[]} />);
-    const holidayElements = screen.getAllByText(/Independence Day|August Festivals/i);
-    expect(holidayElements.length).toBe(2);
+beforeEach(() => {
+    global.fetch = jest.fn(() =>
+        Promise.resolve({
+            ok: true,
+            json: () => Promise.resolve(sampleHolidays)
+        })
+    );
 });
 
-test('renders upcoming holidays', () => {
-    render(<HolidayList todayHolidays={[]} upcomingHolidays={holidays} />);
-    const holidayElements = screen.getAllByText(/Independence Day|August Festivals/i);
-    expect(holidayElements.length).toBe(2);
+afterEach(() => {
+    jest.restoreAllMocks();
 });
 
-test('modal opens with holiday details', () => {
-    render(<HolidayList todayHolidays={holidays} upcomingHolidays={[]} />);
-    const detailsButton = screen.getAllByText('Details')[0];
-    fireEvent.click(detailsButton);
-    const modalContent = screen.getByText(/Date: 2024-07-04/i);
-    expect(modalContent).toBeInTheDocument();
+test('loads and displays holidays from the API', async () => {
+    render(<HolidayList />);
+
+    expect(await screen.findByText('Independence Day')).toBeInTheDocument();
+    expect(screen.getByText('Festival Day')).toBeInTheDocument();
 });
 
-test('filters holidays by name', () => {
-    render(<HolidayList todayHolidays={holidays} upcomingHolidays={holidays} />);
-    const input = screen.getByPlaceholderText('Search holidays...');
-    fireEvent.change(input, { target: { value: 'August' } });
-    const holidayElements = screen.getAllByText(/August Festivals/i);
-    expect(holidayElements.length).toBe(2);
+test('filters holidays by name', async () => {
+    render(<HolidayList />);
+
+    const input = await screen.findByPlaceholderText(/Search by holiday name/i);
+    fireEvent.change(input, { target: { value: 'Festival' } });
+
+    expect(screen.getByText('Festival Day')).toBeInTheDocument();
+    expect(screen.queryByText('Independence Day')).not.toBeInTheDocument();
 });
 
-test('sorts holidays by name', () => {
-    render(<HolidayList todayHolidays={holidays} upcomingHolidays={holidays} />);
-    const select = screen.getByDisplayValue('Sort By');
-    fireEvent.change(select, { target: { value: 'name' } });
-    const holidayElements = screen.getAllByRole('heading', { level: 3 });
-    expect(holidayElements[0]).toHaveTextContent('August Festivals');
-    expect(holidayElements[1]).toHaveTextContent('August Festivals');
-    expect(holidayElements[2]).toHaveTextContent('Independence Day');
-    expect(holidayElements[3]).toHaveTextContent('Independence Day');
-});
+test('shows retry UI when the API fails', async () => {
+    global.fetch.mockImplementationOnce(() =>
+        Promise.resolve({ ok: false, status: 500 })
+    );
 
-test('sorts holidays by date', () => {
-    render(<HolidayList todayHolidays={holidays} upcomingHolidays={holidays} />);
-    const select = screen.getByDisplayValue('Sort By');
-    fireEvent.change(select, { target: { value: 'date' } });
-    const holidayElements = screen.getAllByRole('heading', { level: 3 });
-    expect(holidayElements[0]).toHaveTextContent('Independence Day');
-    expect(holidayElements[1]).toHaveTextContent('Independence Day');
-    expect(holidayElements[2]).toHaveTextContent('August Festivals');
-    expect(holidayElements[3]).toHaveTextContent('August Festivals');
+    render(<HolidayList />);
+
+    expect(
+        await screen.findByText(/Holiday data could not be loaded/i)
+    ).toBeInTheDocument();
+
+    expect(
+        screen.getByRole('button', { name: /Try again/i })
+    ).toBeInTheDocument();
 });

@@ -1,70 +1,100 @@
-# Getting Started with Create React App
+# Global Holiday Finder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A personal React project I started during my summer break before my final year of Computing Science.
 
-## Available Scripts
+The application explores upcoming public holidays around the world and provides searching, filtering, sorting, date-range filtering, localisation, theme switching and holiday detail views.
 
-In the project directory, you can run:
+## Why I built it
 
-### `npm start`
+I wanted to develop a complete React application outside formal coursework and practise working with:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- third-party REST APIs
+- reusable React components
+- state and effect management
+- filtering and sorting
+- localisation
+- responsive design
+- testing and debugging
+- Git / GitHub
+- deployment with Vercel
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Features
 
-### `npm test`
+- Worldwide upcoming holiday data using the Nager.Date REST API
+- Search by holiday name
+- Filter by country
+- Filter by holiday type
+- Filter by start and end date
+- Sort by holiday name or date
+- Holiday details modal
+- English and Spanish localisation
+- Light and dark themes
+- Responsive layout
+- Live local date and time
+- API error handling with retry
+- Empty-state and loading feedback
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Technologies
 
-### `npm run build`
+- React
+- JavaScript
+- REST APIs
+- react-i18next / i18next
+- React Datepicker
+- Jest / React Testing Library
+- Git / GitHub
+- Vercel
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Recent maintenance refresh
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+I revisited the project in 2026 and treated it as an example of maintaining existing software rather than simply rewriting it.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The refresh included:
 
-### `npm run eject`
+- updating the holiday API from the legacy v2 endpoint to v3
+- adding explicit API failure handling and retry behaviour
+- removing a duplicated API request from the top-level component
+- improving filtering and empty states
+- improving accessibility and modal behaviour
+- making the light/dark theme persist between sessions
+- refreshing the responsive interface
+- updating stale project documentation
+- updating tests to match the current component behaviour
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This was useful because it highlighted a realistic software-engineering lesson: software that worked when first developed still needs maintenance as APIs, dependencies and expectations change.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Running locally
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm install
+npm start
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Then open:
 
-## Learn More
+```text
+http://localhost:3000
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Production build
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+npm run build
+```
 
-### Code Splitting
+## Data source
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Holiday data is provided by the public Nager.Date API:
 
-### Analyzing the Bundle Size
+`https://date.nager.at/api/v3/NextPublicHolidaysWorldwide`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The worldwide endpoint returns upcoming public holidays for the next several days.
 
-### Making a Progressive Web App
+## Future improvements
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- modernise the older Create React App dependency stack
+- expand automated test coverage
+- add country names rather than displaying only country codes
+- add a country/year view using the Nager.Date country-specific endpoint
+- improve caching and offline behaviour
+- add basic observability for client-side failures

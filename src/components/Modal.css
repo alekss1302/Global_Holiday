@@ -1,54 +1,107 @@
-/* Modal Styles */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  inset: 0;
+  z-index: 1000;
+  padding: 22px;
+  display: grid;
+  place-items: center;
+  background: rgba(8, 15, 31, 0.72);
+  backdrop-filter: blur(7px);
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  width: 80%;
-  box-sizing: border-box;
+  position: relative;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 44px);
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  padding: 28px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.32);
 }
 
-.modal-content img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 38px;
+  height: 38px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1;
   cursor: pointer;
-  border: none;
-  border-radius: 5px;
-  background-color: #61dafb;
-  color: #282c34;
 }
 
-button:hover {
-  background-color: #21a1f1;
+.modal-country {
+  display: inline-flex;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--surface-strong);
+  color: var(--primary);
+  font-size: 0.78rem;
+  font-weight: 850;
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
+.modal-content h2 {
+  margin: 15px 48px 5px 0;
+  font-size: 1.65rem;
+  line-height: 1.2;
+}
+
+.modal-local-name {
+  margin: 0 0 21px;
+  color: var(--muted);
+}
+
+.holiday-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px;
+  margin: 0 0 22px;
+}
+
+.holiday-details div {
+  padding: 13px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface-soft);
+}
+
+.holiday-details dt {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.holiday-details dd {
+  margin: 5px 0 0;
+  font-weight: 750;
+}
+
+.modal-action {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 14px;
+  background: var(--primary);
+  color: #ffffff;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+@media (max-width: 520px) {
   .modal-content {
-    width: 90%;
-    padding: 15px;
+    padding: 22px;
   }
 
-  button {
-    width: 100%;
+  .holiday-details {
+    grid-template-columns: 1fr;
   }
 }

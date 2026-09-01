@@ -5,12 +5,17 @@ import Footer from './components/Footer';
 import { useTranslation } from 'react-i18next';
 
 const App = () => {
-    const { i18n } = useTranslation();
-    const [darkMode, setDarkMode] = useState(false);
+    const { t, i18n } = useTranslation();
+
+    const [darkMode, setDarkMode] = useState(() => {
+        return localStorage.getItem('holidayFinderTheme') === 'dark';
+    });
+
     const [currentTime, setCurrentTime] = useState(new Date());
-    const [todayHolidays, setTodayHolidays] = useState([]);
-    const [upcomingHolidays, setUpcomingHolidays] = useState([]);
-    const [language, setLanguage] = useState('en');
+
+    const [language, setLanguage] = useState(() => {
+        return localStorage.getItem('holidayFinderLanguage') || 'en';
+    });
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -21,39 +26,68 @@ const App = () => {
     }, []);
 
     useEffect(() => {
-        fetch('https://date.nager.at/Api/v2/NextPublicHolidaysWorldwide')
-            .then(response => response.json())
-            .then(data => {
-                const today = new Date().toISOString().split('T')[0];
-                setTodayHolidays(data.filter(holiday => holiday.date === today));
-                setUpcomingHolidays(data.filter(holiday => holiday.date > today));
-            });
-    }, []);
+        document.body.classList.toggle('dark-mode', darkMode);
+        localStorage.setItem('holidayFinderTheme', darkMode ? 'dark' : 'light');
 
-    const changeLanguage = (lng) => {
-        i18n.changeLanguage(lng);
-        setLanguage(lng);
-    };
+        return () => {
+            document.body.classList.remove('dark-mode');
+        };
+    }, [darkMode]);
+
+    useEffect(() => {
+        i18n.changeLanguage(language);
+        localStorage.setItem('holidayFinderLanguage', language);
+    }, [i18n, language]);
 
     return (
         <div className={`App ${darkMode ? 'dark-mode' : ''}`}>
             <header className="App-header">
-                <h1>Holiday Tracker</h1>
-                <div className="global-time">
-                    <p>Current Time: {currentTime.toLocaleTimeString()}</p>
-                    <p>Current Date: {currentTime.toLocaleDateString()}</p>
+                <div className="header-inner">
+                    <div className="brand-block">
+                        <span className="eyebrow">{t('eyebrow')}</span>
+                        <h1>{t('appTitle')}</h1>
+                        <p className="subtitle">{t('appSubtitle')}</p>
+                    </div>
+
+                    <div className="header-status" aria-label={t('currentDateTime')}>
+                        <span>
+                            <strong>{t('currentTime')}:</strong>{' '}
+                            {currentTime.toLocaleTimeString()}
+                        </span>
+                        <span>
+                            <strong>{t('currentDate')}:</strong>{' '}
+                            {currentTime.toLocaleDateString()}
+                        </span>
+                    </div>
+
+                    <div className="header-actions">
+                        <button
+                            className="secondary-button"
+                            onClick={() => setDarkMode(previous => !previous)}
+                            type="button"
+                        >
+                            {darkMode ? t('switchLight') : t('switchDark')}
+                        </button>
+
+                        <label className="language-control">
+                            <span>{t('language')}</span>
+                            <select
+                                aria-label={t('language')}
+                                onChange={(event) => setLanguage(event.target.value)}
+                                value={language}
+                            >
+                                <option value="en">English</option>
+                                <option value="es">Español</option>
+                            </select>
+                        </label>
+                    </div>
                 </div>
-                <button onClick={() => setDarkMode(!darkMode)}>
-                    Toggle {darkMode ? 'Light' : 'Dark'} Mode
-                </button>
-                <select onChange={(e) => changeLanguage(e.target.value)} value={language}>
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                </select>
             </header>
+
             <main>
-                <HolidayList todayHolidays={todayHolidays} upcomingHolidays={upcomingHolidays} />
+                <HolidayList />
             </main>
+
             <Footer />
         </div>
     );

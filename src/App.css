@@ -1,198 +1,197 @@
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+:root {
+  --page-bg: #f5f7fb;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-strong: #eef2ff;
+  --text: #172033;
+  --muted: #667085;
+  --border: #dfe5ef;
+  --primary: #3457d5;
+  --primary-dark: #263fa9;
+  --accent: #0f8b8d;
+  --danger: #b42318;
+  --danger-soft: #fef3f2;
+  --shadow: 0 18px 45px rgba(29, 41, 57, 0.10);
+  --small-shadow: 0 8px 20px rgba(29, 41, 57, 0.08);
+}
+
+* {
   box-sizing: border-box;
-  background-color: #f4f4f4;
-  color: #333;
-  transition: background-color 0.3s, color 0.3s;
+}
+
+html {
+  min-height: 100%;
+  background: var(--page-bg);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(52, 87, 213, 0.10), transparent 28rem),
+    var(--page-bg);
+  color: var(--text);
+  transition: background-color 0.25s ease, color 0.25s ease;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body.dark-mode {
-  background-color: #333;
-  color: #f4f4f4;
+  --page-bg: #0f172a;
+  --surface: #172033;
+  --surface-soft: #1e293b;
+  --surface-strong: #202d4f;
+  --text: #f8fafc;
+  --muted: #c2c9d6;
+  --border: #334155;
+  --primary: #86a2ff;
+  --primary-dark: #b0c0ff;
+  --accent: #69d2d4;
+  --danger: #f97066;
+  --danger-soft: #3a2025;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.30);
+  --small-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(52, 87, 213, 0.28);
+  outline-offset: 2px;
+}
+
+.App {
+  min-height: 100vh;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 20px;
-  justify-content: space-between;
+  color: #ffffff;
+  background:
+    linear-gradient(135deg, rgba(20, 40, 108, 0.98), rgba(37, 78, 179, 0.95)),
+    #1d3f9d;
+  padding: 42px 20px 34px;
+  box-shadow: 0 12px 30px rgba(18, 43, 108, 0.20);
+}
+
+.header-inner {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 22px 36px;
+  align-items: end;
+}
+
+.brand-block {
+  max-width: 720px;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #cdd8ff;
 }
 
 .App-header h1 {
-  font-size: 2.5rem;
+  margin: 0;
+  font-size: clamp(2.3rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
 }
 
-.App-header select {
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1rem;
+.subtitle {
+  max-width: 650px;
+  margin: 16px 0 0;
+  font-size: 1.04rem;
+  line-height: 1.6;
+  color: #e5eaff;
 }
 
-.dark-mode .App-header {
-  background-color: #1c1f26;
-}
-
-.global-time {
-  margin: 10px 0;
-  font-size: 1.5rem;
-}
-
-button {
-  margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: #61dafb;
-  color: #282c34;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #21a1f1;
-}
-
-.dark-mode button {
-  background-color: #21a1f1;
-  color: #f4f4f4;
-}
-
-.main {
-  padding: 20px;
-}
-
-footer {
-  background-color: #282c34;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  margin-top: 20px;
-  transition: background-color 0.3s;
+.header-status {
+  grid-column: 1 / -1;
   display: flex;
-  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 10px 26px;
+  padding: 13px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #f4f6ff;
 }
 
-.dark-mode footer {
-  background-color: #1c1f26;
-}
-
-.footer-section {
-  flex: 1 1 200px;
-  margin-bottom: 20px;
-}
-
-.footer-section h3 {
-  margin-top: 0;
-}
-
-.footer-section p {
-  margin: 5px 0;
-}
-
-.footer-section a {
-  color: #61dafb;
-  text-decoration: none;
-}
-
-.footer-section a:hover {
-  color: #21a1f1;
-}
-
-.social-icons {
+.header-actions {
   display: flex;
-  gap: 10px;
-  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
 }
 
-.social-icons a {
-  font-size: 1.5em;
-  transition: color 0.3s;
+.secondary-button {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-radius: 10px;
+  padding: 9px 14px;
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.social-icons a:hover {
-  color: #21a1f1;
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.20);
+  transform: translateY(-1px);
 }
 
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
+.language-control {
+  display: grid;
+  gap: 6px;
+  color: #e8edff;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.language-control select {
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-radius: 10px;
+  padding: 8px 34px 8px 11px;
+  background: #ffffff;
+  color: #172033;
+}
+
+main {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 34px 0 56px;
+}
+
+@media (max-width: 760px) {
   .App-header {
+    padding-top: 30px;
+  }
+
+  .header-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .header-actions {
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .filters {
-    flex-direction: column;
-    gap: 5px;
-  }
-
-  .filters input,
-  .filters select,
-  .filters .react-datepicker-wrapper {
+  .secondary-button,
+  .language-control select {
     width: 100%;
-  }
-
-  .holiday-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .holiday-item h3 {
-    margin-bottom: 10px;
-  }
-
-  button.details {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .modal-content {
-    width: 90%;
-    padding: 15px;
-  }
-
-  button {
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  h1 {
-    font-size: 2rem;
-  }
-
-  .global-time {
-    font-size: 1.2rem;
-  }
-
-  .filters input,
-  .filters select,
-  .filters .react-datepicker-wrapper {
-    font-size: 0.9rem;
-  }
-
-  button {
-    font-size: 0.9rem;
-    padding: 8px 16px;
-  }
-
-  .holiday-item {
-    padding: 8px;
-  }
-
-  .holiday-item .details {
-    width: 100%;
-    margin-top: 10px;
   }
 }
